@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en" data-md-color-scheme="default">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MPP SDK – BNB Chain Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & base ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --doc-text-primary:   #181A1E;
+      --doc-text-secondary: #5C5F6A;
+      --doc-text-brand:     #FF8A38;
+      --doc-bg-1:           #FFFFFF;
+      --doc-bg-2:           #F1F2F3;
+      --doc-layer-2:        #F1F2F3;
+      --doc-layer-3:        #FFFFFF;
+      --doc-layer-4:        #E1E2E5;
+      --doc-layer-inverse:  #181A1E;
+      --doc-border-3:       #E1E2E5;
+      --doc-text-on-color:  #FFFFFF;
+      --nav-bg:             #181A1E;
+      --nav-height:         56px;
+      --sidebar-width:      224px;
+      --toc-width:          200px;
+      --font-body:          'Space Grotesk', -apple-system, sans-serif;
+      --font-mono:          'Roboto Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--doc-text-secondary);
+      background: var(--doc-bg-1);
+      line-height: 1.6;
+    }
+
+    a { color: var(--doc-text-brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Top navbar ─────────────────────────────────────────── */
+    .md-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.08);
+    }
+    .md-header__logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--doc-text-brand);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .md-header__search {
+      flex: 1;
+      max-width: 320px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: rgba(255,255,255,.5);
+      font-size: 13px;
+      font-family: var(--font-body);
+      cursor: text;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .md-header__nav {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+    }
+    .md-header__nav a {
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: background .15s;
+    }
+    .md-header__nav a:hover { background: rgba(255,255,255,.08); text-decoration: none; color: #fff; }
+    .md-header__nav a.active { color: var(--doc-text-brand); }
+
+    /* ── Layout grid ────────────────────────────────────────── */
+    .md-container {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      min-height: calc(100vh - var(--nav-height) - 60px);
+      padding: 0 24px;
+    }
+
+    /* ── Left sidebar ───────────────────────────────────────── */
+    .md-sidebar--primary {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      padding: 32px 0;
+      border-right: 1px solid var(--doc-border-3);
+      position: sticky;
+      top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+      overflow-y: auto;
+    }
+    .nav-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--doc-text-secondary);
+      padding: 16px 16px 6px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--doc-text-secondary);
+      cursor: pointer;
+      border-radius: 0;
+      transition: background .12s;
+      border-left: 2px solid transparent;
+    }
+    .nav-item:hover { background: var(--doc-layer-2); color: var(--doc-text-primary); }
+    .nav-item.active {
+      color: var(--doc-text-brand);
+      border-left-color: var(--doc-text-brand);
+      background: rgba(255, 138, 56, .06);
+      font-weight: 500;
+    }
+    .nav-item .nav-icon { font-size: 14px; opacity: .7; }
+
+    /* ── Main content ───────────────────────────────────────── */
+    .md-content {
+      flex: 1;
+      min-width: 0;
+      padding: 40px 48px;
+    }
+
+    /* ── Right TOC sidebar ──────────────────────────────────── */
+    .md-sidebar--secondary {
+      width: var(--toc-width);
+      flex-shrink: 0;
+      padding: 40px 0 40px 24px;
+      position: sticky;
+      top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+      overflow-y: auto;
+    }
+    .toc-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--doc-text-secondary);
+      margin-bottom: 10px;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li a {
+      font-size: 12px;
+      color: var(--doc-text-secondary);
+      display: block;
+      padding: 3px 0;
+      border-left: 2px solid var(--doc-border-3);
+      padding-left: 10px;
+      transition: color .12s, border-color .12s;
+    }
+    .toc-list li a:hover { color: var(--doc-text-primary); border-left-color: var(--doc-text-brand); text-decoration: none; }
+    .toc-list li.active a { color: var(--doc-text-brand); border-left-color: var(--doc-text-brand); font-weight: 500; }
+    .toc-list li.indent a { padding-left: 22px; font-size: 11.5px; }
+
+    /* ── Typography ─────────────────────────────────────────── */
+    .md-typeset h1 {
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--doc-text-primary);
+      margin: 0 0 .6em;
+      line-height: 1.25;
+    }
+    .md-typeset h2 {
+      font-size: 1.35em;
+      font-weight: 700;
+      color: var(--doc-text-primary);
+      margin: 2em 0 .6em;
+      line-height: 1.33;
+      padding-bottom: .3em;
+      border-bottom: 1px solid var(--doc-border-3);
+    }
+    .md-typeset h3 {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--doc-text-primary);
+      margin: 1.4em 0 .5em;
+    }
+    .md-typeset p { margin: .8em 0; }
+    .md-typeset strong { color: var(--doc-text-primary); }
+
+    /* lead paragraph */
+    .lead {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--doc-text-secondary);
+      margin-bottom: 2em;
+    }
+
+    /* ── Breadcrumb ─────────────────────────────────────────── */
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--doc-text-secondary);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb a { color: var(--doc-text-secondary); }
+    .breadcrumb a:hover { color: var(--doc-text-brand); text-decoration: none; }
+    .breadcrumb .sep { opacity: .4; }
+
+    /* ── Link cards (repo / docs) ───────────────────────────── */
+    .link-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 1.2em 0 2em;
+    }
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--doc-border-3);
+      border-radius: 8px;
+      background: var(--doc-layer-2);
+      color: var(--doc-text-primary);
+      font-size: 14px;
+      font-weight: 500;
+      transition: background .15s, border-color .15s;
+      min-width: 220px;
+      flex: 1;
+      max-width: 340px;
+      text-decoration: none;
+    }
+    .link-card:hover { background: var(--doc-layer-4); border-color: var(--doc-text-brand); text-decoration: none; }
+    .link-card-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--doc-layer-3);
+      border: 1px solid var(--doc-border-3);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .link-card-body { display: flex; flex-direction: column; gap: 2px; }
+    .link-card-title { font-weight: 600; color: var(--doc-text-primary); font-size: 14px; }
+    .link-card-sub { font-size: 12px; color: var(--doc-text-secondary); font-weight: 400; }
+
+    /* ── Feature pills ──────────────────────────────────────── */
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 1em 0 1.8em;
+    }
+    .pill {
+      background: var(--doc-layer-2);
+      border: 1px solid var(--doc-border-3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--doc-text-primary);
+    }
+
+    /* ── Role cards (overview) ──────────────────────────────── */
+    .role-cards {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 1.2em 0 2em;
+    }
+    .role-card {
+      flex: 1;
+      min-width: 180px;
+      padding: 16px;
+      border: 1px solid var(--doc-border-3);
+      border-radius: 8px;
+      background: var(--doc-layer-2);
+    }
+    .role-card-emoji { font-size: 24px; margin-bottom: 8px; }
+    .role-card-title { font-size: 14px; font-weight: 700; color: var(--doc-text-primary); margin-bottom: 4px; }
+    .role-card-desc { font-size: 12px; color: var(--doc-text-secondary); line-height: 1.5; }
+
+    /* ── Demo section header ────────────────────────────────── */
+    .demo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--doc-layer-inverse);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .demo-section {
+      margin: 2.4em 0;
+      border: 1px solid var(--doc-border-3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .demo-header {
+      background: var(--doc-layer-2);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--doc-border-3);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .demo-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--doc-text-brand);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .demo-header-body {}
+    .demo-title { font-size: 16px; font-weight: 700; color: var(--doc-text-primary); margin-bottom: 3px; }
+    .demo-subtitle { font-size: 13px; color: var(--doc-text-secondary); }
+    .demo-body { padding: 20px 20px; }
+    .demo-body p { font-size: 14px; margin: .5em 0; }
+    .demo-body h4 { font-size: 13px; font-weight: 700; color: var(--doc-text-primary); margin: 1.2em 0 .4em; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── Tabs (like MkDocs tabbed) ──────────────────────────── */
+    .tabs-wrapper { margin: 1em 0; }
+    .tabs-nav {
+      display: flex;
+      border-bottom: 2px solid var(--doc-border-3);
+      gap: 0;
+      margin-bottom: 0;
+    }
+    .tab-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--doc-text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: color .15s, border-color .15s;
+    }
+    .tab-btn.active { color: var(--doc-text-brand); border-bottom-color: var(--doc-text-brand); }
+    .tab-panel { display: none; padding-top: 16px; }
+    .tab-panel.active { display: block; }
+
+    /* ── Code blocks ────────────────────────────────────────── */
+    pre, code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    pre {
+      background: #1E2026;
+      color: #c4c5cb;
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin: .8em 0;
+      line-height: 1.65;
+    }
+    code:not(pre code) {
+      background: var(--doc-layer-2);
+      border: 1px solid var(--doc-border-3);
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: var(--doc-text-primary);
+      font-size: 12.5px;
+    }
+    /* syntax colours (minimal) */
+    .kw { color: #c792ea; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .fn { color: #82aaff; }
+    .num { color: #f78c6c; }
+    .co { color: #89ddff; }
+    .br { color: #ffcb6b; }
+
+    /* ── Admonition / info box ──────────────────────────────── */
+    .admonition {
+      border-left: 4px solid var(--doc-text-brand);
+      background: rgba(255,138,56,.07);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin: 1em 0;
+    }
+    .admonition.tip { border-left-color: #4caf50; background: rgba(76,175,80,.06); }
+    .admonition.note { border-left-color: #2196f3; background: rgba(33,150,243,.06); }
+    .admonition strong { color: var(--doc-text-primary); display: block; margin-bottom: 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── Step list ──────────────────────────────────────────── */
+    .steps { list-style: none; counter-reset: step; padding-left: 0; margin: .8em 0; }
+    .steps li { counter-increment: step; padding-left: 32px; position: relative; margin-bottom: .5em; font-size: 14px; }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--doc-text-brand);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 20px;
+    }
+
+    /* ── Architecture diagram (ASCII art box) ───────────────── */
+    .arch-box {
+      background: #1E2026;
+      color: #c4c5cb;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      border-radius: 8px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 1em 0;
+    }
+    .arch-brand { color: #FF8A38; }
+    .arch-green { color: #c3e88d; }
+    .arch-blue  { color: #82aaff; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    .md-footer {
+      border-top: 1px solid var(--doc-border-3);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--doc-text-secondary);
+    }
+    .md-footer a { color: var(--doc-text-secondary); }
+    .md-footer a:hover { color: var(--doc-text-brand); }
+
+    /* ── Prev / Next nav ────────────────────────────────────── */
+    .page-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3em;
+      padding-top: 1.5em;
+      border-top: 1px solid var(--doc-border-3);
+      gap: 12px;
+    }
+    .page-nav-card {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border: 1px solid var(--doc-border-3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      min-width: 160px;
+      color: var(--doc-text-primary);
+      text-decoration: none;
+      transition: background .15s;
+      background: var(--doc-layer-2);
+    }
+    .page-nav-card:hover { background: var(--doc-layer-4); text-decoration: none; }
+    .page-nav-label { font-size: 11px; color: var(--doc-text-secondary); text-transform: uppercase; letter-spacing: .05em; }
+    .page-nav-title { font-size: 14px; font-weight: 600; color: var(--doc-text-brand); }
+
+    /* ── "Ask AI" floating button ───────────────────────────── */
+    .ask-ai-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--doc-layer-inverse);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      transition: background .15s;
+      z-index: 200;
+    }
+    .ask-ai-button:hover { background: #2c2f38; }
+
+    /* ── Mock annotations ───────────────────────────────────── */
+    .mock-note {
+      background: #fff3e0;
+      border: 1px dashed #FF8A38;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #7c4700;
+      margin: .6em 0;
+      font-style: italic;
+    }
+    .mock-note strong { color: #7c4700; }
+
+    @media (max-width: 900px) {
+      .md-sidebar--secondary { display: none; }
+    }
+    @media (max-width: 680px) {
+      .md-sidebar--primary { display: none; }
+      .md-content { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ TOP NAV ═══════════════════════════ -->
+<header class="md-header" role="banner">
+  <div class="md-header__logo">
+    <div class="logo-icon">B</div>
+    BNB Chain Docs
+  </div>
+
+  <div class="md-header__search">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="opacity:.5"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 10.5 3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Search docs…
+  </div>
+
+  <nav class="md-header__nav">
+    <a href="#">BSC</a>
+    <a href="#">opBNB</a>
+    <a href="#">Greenfield</a>
+    <a href="#" class="active">Developer Kit</a>
+  </nav>
+</header>
+
+<!-- ═══════════════════════════ LAYOUT ═══════════════════════════ -->
+<div class="md-container">
+
+  <!-- ── Left sidebar ── -->
+  <nav class="md-sidebar--primary" aria-label="Navigation">
+    <div class="nav-section-label">Developer Kit</div>
+
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🏠</span> Overview
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🌿</span> Greenfield SDK
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🤖</span> BNBAgent SDK
+    </a>
+    <a class="nav-item active" href="#">
+      <span class="nav-icon">⚡</span> MPP SDK
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🔌</span> MCP
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">💬</span> Ask AI
+    </a>
+
+    <div class="nav-section-label" style="margin-top:16px;">BSC</div>
+    <a class="nav-item" href="#">Quick Start</a>
+    <a class="nav-item" href="#">Node Operators</a>
+    <a class="nav-item" href="#">Validators</a>
+
+    <div class="nav-section-label" style="margin-top:16px;">opBNB</div>
+    <a class="nav-item" href="#">Quick Guide</a>
+    <a class="nav-item" href="#">Developers</a>
+  </nav>
+
+  <!-- ── Main content ── -->
+  <main class="md-content md-typeset">
+
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="#">Home</a>
+      <span class="sep">›</span>
+      <a href="#">Developer Kit</a>
+      <span class="sep">›</span>
+      <span>MPP SDK</span>
+    </nav>
+
+    <!-- ════════ PAGE TITLE ════════ -->
+    <h1>MPP SDK</h1>
+
+    <p class="lead">
+      The <strong>Machine Payment Protocol (MPP) SDK</strong> is BNB Chain's open-source library for
+      programmable, machine-to-machine payments on <strong>BSC</strong> and <strong>opBNB</strong>.
+      It lets merchants, client applications, and facilitators integrate payment flows on-chain with
+      minimal setup — no custom smart-contract work required.
+    </p>
+
+    <!-- What is MPP? -->
+    <h2 id="what-is-mpp">What is MPP?</h2>
+
+    <p>
+      MPP (Machine Payment Protocol) defines a standard on-chain payment channel between three parties:
+      a <strong>Merchant</strong> who exposes an API, a <strong>Client</strong> (end-user or agent)
+      who pays for services, and an optional <strong>Facilitator</strong> who routes and guarantees
+      transactions on behalf of merchants they onboard.
+    </p>
+
+    <div class="role-cards">
+      <div class="role-card">
+        <div class="role-card-emoji">🏪</div>
+        <div class="role-card-title">Merchant</div>
+        <div class="role-card-desc">Exposes an API or service. Receives BNB or BEP-20 payments automatically when a client consumes the service.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-card-emoji">👤</div>
+        <div class="role-card-title">Client</div>
+        <div class="role-card-desc">Calls the merchant's API. Pays per request or per session using the MPP SDK, settling on-chain.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-card-emoji">🔀</div>
+        <div class="role-card-title">Facilitator</div>
+        <div class="role-card-desc">Aggregates multiple merchants, routes client requests, and proxies MPP settlement through their own gateway.</div>
+      </div>
+    </div>
+
+    <p>
+      Under the hood, MPP uses an ERC-7715-style payment channel contract on BSC / opBNB.
+      The SDK abstracts all signing, nonce management, and on-chain settlement so your code only
+      calls high-level methods like <code>createChannel()</code>, <code>pay()</code>, and
+      <code>settle()</code>.
+    </p>
+
+    <!-- Key features -->
+    <h2 id="key-features">Key features</h2>
+
+    <div class="feature-pills">
+      <span class="pill">⚡ Per-request micro-payments</span>
+      <span class="pill">🔐 Off-chain signed receipts</span>
+      <span class="pill">🌐 BSC &amp; opBNB support</span>
+      <span class="pill">🪙 BNB &amp; BEP-20 tokens</span>
+      <span class="pill">🤖 AI-agent &amp; ERC-8004 ready</span>
+      <span class="pill">🔀 Facilitator routing</span>
+      <span class="pill">📦 TypeScript + Node.js</span>
+    </div>
+
+    <!-- Resources -->
+    <h2 id="resources">Resources</h2>
+
+    <div class="link-cards">
+      <a class="link-card" href="https://github.com/bnb-chain/mpp-sdk" target="_blank" rel="noopener">
+        <div class="link-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <div class="link-card-body">
+          <div class="link-card-title">GitHub Repository</div>
+          <div class="link-card-sub">bnb-chain/mpp-sdk</div>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://deepwiki.com/bnb-chain/mpp-sdk" target="_blank" rel="noopener">
+        <div class="link-card-icon">
+          📖
+        </div>
+        <div class="link-card-body">
+          <div class="link-card-title">DeepWiki Reference</div>
+          <div class="link-card-sub">deepwiki.com/bnb-chain/mpp-sdk</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Install -->
+    <h2 id="quick-install">Quick install</h2>
+
+    <div class="tabs-wrapper">
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab(this,'npm')">npm</button>
+        <button class="tab-btn" onclick="switchTab(this,'yarn')">yarn</button>
+        <button class="tab-btn" onclick="switchTab(this,'pnpm')">pnpm</button>
+      </div>
+      <div class="tab-panel active" id="tab-npm">
+<pre><span class="co">$</span> npm install @bnb-chain/mpp-sdk</pre>
+      </div>
+      <div class="tab-panel" id="tab-yarn">
+<pre><span class="co">$</span> yarn add @bnb-chain/mpp-sdk</pre>
+      </div>
+      <div class="tab-panel" id="tab-pnpm">
+<pre><span class="co">$</span> pnpm add @bnb-chain/mpp-sdk</pre>
+      </div>
+    </div>
+
+    <!-- ════════ DEMOS ════════ -->
+    <h2 id="demos">Demos</h2>
+
+    <div class="admonition note">
+      <strong>Note</strong>
+      The three demos below cover every stakeholder in the MPP ecosystem.
+      Pick the one that matches your role, or run all three locally to see the full end-to-end flow.
+    </div>
+
+    <!-- ── Demo 1 ── -->
+    <div class="demo-section" id="demo-merchant">
+      <div class="demo-header">
+        <div class="demo-number">1</div>
+        <div class="demo-header-body">
+          <div class="demo-title">Merchant Integration</div>
+          <div class="demo-subtitle">Add an MPP-gated endpoint to an existing API server</div>
+        </div>
+      </div>
+
+      <div class="demo-body">
+        <p>
+          This demo shows a merchant how to wrap any existing REST endpoint with MPP payment
+          verification. A single middleware call checks that the client has a valid open channel
+          and has pre-authorised enough BNB to cover the request before the business logic runs.
+        </p>
+
+        <div class="admonition tip">
+          <strong>Tip</strong>
+          You only need an EVM wallet (private key) and a BSC testnet RPC endpoint.
+          No frontend changes are required.
+        </div>
+
+        <h4>Architecture</h4>
+        <div class="arch-box">
+<span class="arch-blue">Client app</span>  ──(HTTP + MPP receipt header)──►  <span class="arch-brand">Merchant API</span>
+                                                     │
+                                               <span class="arch-green">mpp.verifyReceipt()</span>
+                                                     │
+                                              Valid? ─► run handler
+                                              Invalid? ─► 402 Payment Required
+        </div>
+
+        <h4>Step 1 — Install &amp; configure</h4>
+<pre><span class="kw">import</span> { MppMerchant } <span class="kw">from</span> <span class="str">'@bnb-chain/mpp-sdk'</span>;
+
+<span class="kw">const</span> mpp = <span class="kw">new</span> <span class="fn">MppMerchant</span>({
+  chainId:    <span class="num">56</span>,                      <span class="cm">// 56 = BSC mainnet, 97 = BSC testnet</span>
+  rpcUrl:     <span class="str">'https://bsc-dataseed.bnbchain.org'</span>,
+  privateKey: process.env.<span class="co">MERCHANT_PRIVATE_KEY</span>,
+  pricePerCall: <span class="str">'0.001'</span>,               <span class="cm">// BNB per API call</span>
+});</pre>
+
+        <h4>Step 2 — Add the middleware (Express example)</h4>
+<pre><span class="kw">import</span> express <span class="kw">from</span> <span class="str">'express'</span>;
+
+<span class="kw">const</span> app = <span class="fn">express</span>();
+
+<span class="cm">// MPP payment gate — applies to all routes below it</span>
+app.<span class="fn">use</span>(mpp.<span class="fn">middleware</span>());
+
+app.<span class="fn">get</span>(<span class="str">'/api/weather'</span>, (req, res) =&gt; {
+  res.<span class="fn">json</span>({ temp: <span class="str">'28°C'</span>, city: <span class="str">'Singapore'</span> });
+});
+
+app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt;
+  console.<span class="fn">log</span>(<span class="str">'MPP-gated API running on :3000'</span>)
+);</pre>
+
+        <h4>Step 3 — Publish your MPP manifest</h4>
+        <p>
+          Expose a <code>/.well-known/mpp.json</code> file so clients can discover your
+          payment terms automatically:
+        </p>
+<pre>{
+  <span class="co">"name"</span>:         <span class="str">"Weather API"</span>,
+  <span class="co">"version"</span>:      <span class="str">"1.0"</span>,
+  <span class="co">"merchantAddr"</span>: <span class="str">"0xYourMerchantAddress"</span>,
+  <span class="co">"pricePerCall"</span>: <span class="str">"0.001"</span>,
+  <span class="co">"token"</span>:        <span class="str">"BNB"</span>,
+  <span class="co">"chainId"</span>:      <span class="num">56</span>
+}</pre>
+
+        <div class="mock-note">
+          <strong>Mock note for FE engineers:</strong>
+          The code snippets above are illustrative. Exact method names will follow the final SDK API.
+          The middleware pattern, manifest shape, and config keys are confirmed design decisions.
+        </div>
+      </div>
+    </div><!-- /demo-section -->
+
+    <!-- ── Demo 2 ── -->
+    <div class="demo-section" id="demo-client">
+      <div class="demo-header">
+        <div class="demo-number">2</div>
+        <div class="demo-header-body">
+          <div class="demo-title">Client — Pay a Merchant</div>
+          <div class="demo-subtitle">Open a payment channel and call a merchant API</div>
+        </div>
+      </div>
+
+      <div class="demo-body">
+        <p>
+          This demo walks through the client-side experience: discovering a merchant's MPP terms,
+          opening a payment channel on-chain, and attaching a signed receipt to each API call.
+          Works in both browser (with a Web3 wallet) and Node.js (with a private key).
+        </p>
+
+        <h4>Architecture</h4>
+        <div class="arch-box">
+<span class="arch-blue">Client wallet</span>
+       │
+       ├─ openChannel() ──────────────────►  <span class="arch-brand">BSC contract</span>
+       │                                           │ locked BNB
+       │                                           │
+       ├─ signReceipt() + HTTP call ──────►  <span class="arch-green">Merchant API</span>
+       │                                           │ verify + respond
+       │                                           │
+       └─ (auto / manual) settle() ──────►  <span class="arch-brand">BSC contract</span>
+                                                   │ release funds
+        </div>
+
+        <h4>Step 1 — Create client &amp; open a channel</h4>
+<pre><span class="kw">import</span> { MppClient } <span class="kw">from</span> <span class="str">'@bnb-chain/mpp-sdk'</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">MppClient</span>({
+  chainId: <span class="num">56</span>,
+  rpcUrl:  <span class="str">'https://bsc-dataseed.bnbchain.org'</span>,
+  signer:  window.ethereum,    <span class="cm">// or privateKey in Node.js</span>
+});
+
+<span class="cm">// Discover merchant terms from their manifest</span>
+<span class="kw">const</span> terms = <span class="kw">await</span> client.<span class="fn">fetchTerms</span>(<span class="str">'https://api.example.com'</span>);
+
+<span class="cm">// Open a payment channel with enough BNB for ~100 calls</span>
+<span class="kw">const</span> channel = <span class="kw">await</span> client.<span class="fn">openChannel</span>({
+  merchantAddr: terms.merchantAddr,
+  deposit:      <span class="str">'0.1'</span>,   <span class="cm">// BNB, enough for 100 × 0.001 calls</span>
+  ttl:          <span class="num">86400</span>,  <span class="cm">// seconds until auto-expiry</span>
+});</pre>
+
+        <h4>Step 2 — Call the merchant API</h4>
+<pre><span class="cm">// The SDK automatically signs a receipt and injects the header</span>
+<span class="kw">const</span> response = <span class="kw">await</span> client.<span class="fn">fetch</span>(channel, <span class="str">'https://api.example.com/api/weather'</span>);
+
+console.<span class="fn">log</span>(<span class="kw">await</span> response.<span class="fn">json</span>());
+<span class="cm">// { temp: '28°C', city: 'Singapore' }</span></pre>
+
+        <h4>Step 3 — Settle or close the channel</h4>
+<pre><span class="cm">// Settle any remaining balance and close the channel</span>
+<span class="kw">const</span> receipt = <span class="kw">await</span> client.<span class="fn">closeChannel</span>(channel);
+console.<span class="fn">log</span>(<span class="str">`Spent: <span class="co">${receipt.totalSpent}</span> BNB, refunded: <span class="co">${receipt.refund}</span> BNB`</span>);</pre>
+
+        <div class="tabs-wrapper" style="margin-top:1em;">
+          <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab(this,'browser-demo')">Browser (MetaMask)</button>
+            <button class="tab-btn" onclick="switchTab(this,'node-demo')">Node.js</button>
+          </div>
+          <div class="tab-panel active" id="tab-browser-demo">
+<pre><span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">MppClient</span>({ signer: window.ethereum, chainId: <span class="num">56</span> });</pre>
+          </div>
+          <div class="tab-panel" id="tab-node-demo">
+<pre><span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">MppClient</span>({ privateKey: process.env.<span class="co">CLIENT_KEY</span>, chainId: <span class="num">56</span> });</pre>
+          </div>
+        </div>
+
+        <div class="mock-note">
+          <strong>Mock note for FE engineers:</strong>
+          The <code>client.fetch()</code> wrapper mirrors the native <code>fetch()</code> API so
+          existing HTTP code needs minimal changes. The exact header name for the receipt is
+          <code>X-MPP-Receipt</code>.
+        </div>
+      </div>
+    </div><!-- /demo-section -->
+
+    <!-- ── Demo 3 ── -->
+    <div class="demo-section" id="demo-facilitator">
+      <div class="demo-header">
+        <div class="demo-number">3</div>
+        <div class="demo-header-body">
+          <div class="demo-title">Facilitator — Onboard Merchants &amp; Route Requests</div>
+          <div class="demo-subtitle">Run a gateway that handles MPP on behalf of your merchants</div>
+        </div>
+      </div>
+
+      <div class="demo-body">
+        <p>
+          A facilitator is a trusted intermediary that onboards merchants to MPP and forwards
+          client requests through their own gateway. Merchants don't need to run their own
+          MPP verifier — the facilitator does it for them and passes payment proofs upstream.
+        </p>
+
+        <h4>Architecture</h4>
+        <div class="arch-box">
+<span class="arch-blue">Client</span>  ──(receipt)──►  <span class="arch-brand">Facilitator Gateway</span>  ──(verified)──►  <span class="arch-green">Merchant API</span>
+                              │                                        │
+                    <span class="fn">mpp.verifyReceipt()</span>                   (no MPP code
+                              │                                   needed here)
+                    record off-chain log
+                              │
+                   periodic on-chain settlement
+        </div>
+
+        <h4>Step 1 — Configure the Facilitator node</h4>
+<pre><span class="kw">import</span> { MppFacilitator } <span class="kw">from</span> <span class="str">'@bnb-chain/mpp-sdk'</span>;
+
+<span class="kw">const</span> facilitator = <span class="kw">new</span> <span class="fn">MppFacilitator</span>({
+  chainId:    <span class="num">56</span>,
+  rpcUrl:     <span class="str">'https://bsc-dataseed.bnbchain.org'</span>,
+  privateKey: process.env.<span class="co">FACILITATOR_PRIVATE_KEY</span>,
+  settlementInterval: <span class="num">3600</span>,   <span class="cm">// seconds between on-chain batch settlements</span>
+});</pre>
+
+        <h4>Step 2 — Register merchants</h4>
+<pre><span class="cm">// Register a merchant; the facilitator will now accept channels for them</span>
+<span class="kw">await</span> facilitator.<span class="fn">registerMerchant</span>({
+  merchantAddr:   <span class="str">'0xMerchantAddress'</span>,
+  upstreamUrl:    <span class="str">'https://internal-api.merchant.com'</span>,
+  revenueShare:   <span class="num">0.98</span>,   <span class="cm">// merchant keeps 98 %, facilitator takes 2 %</span>
+});</pre>
+
+        <h4>Step 3 — Run the proxy gateway</h4>
+<pre><span class="kw">import</span> express <span class="kw">from</span> <span class="str">'express'</span>;
+
+<span class="kw">const</span> app = <span class="fn">express</span>();
+
+<span class="cm">// Verify receipt, log, and forward to merchant</span>
+app.<span class="fn">use</span>(<span class="str">'/merchant/:addr/*'</span>, facilitator.<span class="fn">proxyMiddleware</span>());
+
+app.<span class="fn">listen</span>(<span class="num">8080</span>, () =&gt;
+  console.<span class="fn">log</span>(<span class="str">'Facilitator gateway on :8080'</span>)
+);</pre>
+
+        <h4>Step 4 — Batch settlement</h4>
+        <p>
+          The facilitator SDK batches receipts and runs an on-chain settlement automatically
+          on the configured interval. You can also trigger it manually:
+        </p>
+<pre><span class="cm">// Force an immediate settlement for all registered merchants</span>
+<span class="kw">const</span> summary = <span class="kw">await</span> facilitator.<span class="fn">settleAll</span>();
+console.<span class="fn">log</span>(<span class="str">`Settled <span class="co">${summary.merchantsCount}</span> merchants, total: <span class="co">${summary.totalBNB}</span> BNB`</span>);</pre>
+
+        <div class="admonition">
+          <strong>Facilitator registration</strong>
+          Before going live, your facilitator address must be whitelisted in the MPP on-chain
+          registry. Contact the BNB Chain team or submit a governance proposal to be added.
+        </div>
+
+        <div class="mock-note">
+          <strong>Mock note for FE engineers:</strong>
+          The <code>proxyMiddleware()</code> handles <code>X-MPP-Merchant</code> header routing.
+          The batch settlement and revenue-share mechanics are on-chain; the SDK only surfaces
+          high-level controls.
+        </div>
+      </div>
+    </div><!-- /demo-section -->
+
+    <!-- ── Page footer nav ── -->
+    <div class="page-nav">
+      <a class="page-nav-card" href="#">
+        <span class="page-nav-label">← Previous</span>
+        <span class="page-nav-title">BNBAgent SDK</span>
+      </a>
+      <a class="page-nav-card" href="#" style="text-align:right;">
+        <span class="page-nav-label">Next →</span>
+        <span class="page-nav-title">MCP</span>
+      </a>
+    </div>
+
+  </main><!-- /md-content -->
+
+  <!-- ── Right TOC sidebar ── -->
+  <aside class="md-sidebar--secondary" aria-label="Table of contents">
+    <div class="toc-label">On this page</div>
+    <ul class="toc-list">
+      <li class="active"><a href="#what-is-mpp">What is MPP?</a></li>
+      <li><a href="#key-features">Key features</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#quick-install">Quick install</a></li>
+      <li><a href="#demos">Demos</a></li>
+      <li class="indent"><a href="#demo-merchant">1 · Merchant integration</a></li>
+      <li class="indent"><a href="#demo-client">2 · Client — pay a merchant</a></li>
+      <li class="indent"><a href="#demo-facilitator">3 · Facilitator gateway</a></li>
+    </ul>
+  </aside>
+
+</div><!-- /md-container -->
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="md-footer">
+  <span>© 2025 BNB Chain</span>
+  <span>
+    <a href="#">GitHub</a> ·
+    <a href="#">Discord</a> ·
+    <a href="#">Twitter</a>
+  </span>
+</footer>
+
+<!-- ── Ask AI button (matches overrides/main.html) ── -->
+<button class="ask-ai-button" type="button" aria-label="Open AI Chat">
+  Ask AI
+  <svg width="16" height="16" viewBox="0 0 24 25" aria-hidden="true">
+    <path d="M10.5 6.58644L10.9459 7.82537C11.1908 8.5045 11.5824 9.12128 12.0929 9.63177C12.6034 10.1423 13.2202 10.5339 13.8993 10.7788L15.1383 11.2247C15.2501 11.2648 15.2501 11.4232 15.1383 11.4634L13.8992 11.9093C13.2201 12.1542 12.6033 12.5459 12.0929 13.0563C11.5824 13.5668 11.1908 14.1836 10.9459 14.8627L10.5 16.1016C10.4597 16.2135 10.3015 16.2135 10.2611 16.1016L9.81524 14.8627C9.57032 14.1836 9.17867 13.5669 8.66818 13.0564C8.1577 12.546 7.54093 12.1543 6.86182 11.9095L5.62306 11.4636C5.51106 11.4234 5.51106 11.265 5.62306 11.2248L6.86182 10.779C7.54095 10.5341 8.15773 10.1424 8.66821 9.63195C9.1787 9.12146 9.57034 8.50468 9.81524 7.82555L10.2611 6.58662C10.2699 6.56193 10.286 6.54056 10.3074 6.52545C10.3288 6.51034 10.3544 6.50222 10.3806 6.50222C10.4068 6.50222 10.4323 6.51034 10.4537 6.52545C10.4751 6.54056 10.4913 6.56193 10.5 6.58662V6.58644Z" fill="currentColor"/>
+  </svg>
+</button>
+
+<!-- ═══════════════════════════ JS (tabs) ═══════════════════════════ -->
+<script>
+  function switchTab(btn, panelId) {
+    // deactivate sibling buttons
+    const navEl = btn.closest('.tabs-nav');
+    navEl.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // deactivate sibling panels
+    const wrapper = navEl.closest('.tabs-wrapper');
+    wrapper.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('tab-' + panelId);
+    if (panel) panel.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
