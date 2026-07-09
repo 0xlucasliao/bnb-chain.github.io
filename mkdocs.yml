@@ -115,6 +115,9 @@ nav:
             - Paymaster API Spec: ./bnb-smart-chain/developers/paymaster/paymaster-api.md
             - Wallet Integration: ./bnb-smart-chain/developers/paymaster/wallet-integration.md
             - Try Gasless Transaction: ./bnb-smart-chain/developers/paymaster/wallet-demo.md
+        - Scaled UI Amount (ERC-8056):
+            - Overview: ./bnb-smart-chain/developers/scaled-ui-amount/overview.md
+            - Quick Start & Demo: ./bnb-smart-chain/developers/scaled-ui-amount/quick-start.md
     - Staking:
         - Overview: ./bnb-smart-chain/staking/overview.md
         - User Guide: ./bnb-smart-chain/staking/user-guide.md
